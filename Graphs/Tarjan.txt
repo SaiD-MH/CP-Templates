@@ -1,0 +1,49 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define WhoCare ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define F first
+#define S second
+using namespace std;
+int dx[]={1,-1,0,0};
+int dy[]={0,0,-1,1};
+int dx8[8]={1,1,1,0,0,-1,-1,-1};
+int dy8[8]={1,-1,0,1,-1,1,-1,0};
+const int N=1e5+7,mod=1e9+7;
+vector<int>g[N];
+bool vis[N],onstack[N];
+ll arr[N];
+stack<int>st; 
+int low[N],in[N];
+int timer=1;
+void tarjan(int node){
+vis[node]=1;
+low[node]=in[node]=timer++;
+onstack[node]=1;
+st.push(node);
+for(int ch:g[node]){
+	if(vis[ch] && onstack[ch]){
+		low[node]=min(low[node],in[ch]);
+	}
+	else if(!vis[ch]){
+		tarjan(ch);
+		if(onstack[ch])
+			low[node]=min(low[node],low[ch]);
+	}
+}
+if(low[node]==in[node]){
+	int u;
+	while(1){
+		u=st.top();
+		st.pop();
+		onstack[u]=0;
+		cout<<u<<' ';
+		if(node==u)break;
+		
+	}
+}
+}
+int main(){	
+WhoCare
+
+return 0;
+} 

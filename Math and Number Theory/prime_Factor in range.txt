@@ -1,0 +1,29 @@
+ll p_divisors[N], p[N];
+ 
+void preprocess() {
+        
+
+        // store in p_divisors min prime div for everty num from 2 to N
+        
+    p_divisors[0] = p_divisors[1] = 0;
+ 
+    for (int i = 2; i < N; i++)
+        p_divisors[i] = i;
+ 
+    for (int i = 4; i < N; i += 2)
+        p_divisors[i] = 2;
+ 
+    for (int i = 3; i * i <= N; i += 2)
+        if (p_divisors[i] == i)
+            for (int j = i * i; j < N; j += 2 * i)
+                if (p_divisors[j] == j)
+                    p_divisors[j] = i;
+ 
+    for (int i = 2; i < N; i++)
+        p[i] = p[i / p_divisors[i]] + 1;
+ 
+    for (int i = 2; i < N; i++)
+        p[i] += p[i - 1];
+ 
+ 
+}

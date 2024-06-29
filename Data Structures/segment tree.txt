@@ -1,0 +1,59 @@
+void build(int ni = 0, int ns = 0, int ne = n - 1) {
+    if(ne == ns) {
+        
+        return;
+    }
+    int lf = 2 * ni + 1;
+    int rt = 2 * ni + 2;
+    int mid = ns + (ne - ns) / 2;
+    build(lf, ns, mid);
+    build(rt, mid + 1, ne);
+    
+}
+void push_down(int ni, int ns, int ne) {
+ 
+    if(ne == ns || seg[ni].lazy == 0)
+        return;
+    int lf = 2 * ni + 1;
+    int rt = lf + 1;
+    int mid = ns + (ne - ns) / 2;
+    seg[lf].addLazy(ns, mid, seg[ni].lazy);
+    seg[rt].addLazy(mid + 1, ne, seg[ni].lazy);
+    seg[ni].lazy = 0;
+}
+
+int query(int qs, int qe, int ni = 0, int ns = 0, int ne = n - 1) {
+    if(ne < qs || ns > qe)
+        return ;
+    if(ns >= qs && qe >= ne) {
+        
+        return;
+    }
+    int lf = 2 * ni + 1;
+    int rt = lf + 1;
+    int mid = ns + (ne - ns) / 2;
+	query(qs,qe,lf,ns,mid);
+	query(qs,qe,rt,mid+1,ne);
+	
+	return  ();
+   
+}
+
+void update(int qs, int qe, int v, int ni = 0, int ns = 0, int ne = n - 1) {
+    if(ne < qs || ns > qe)
+        return ;
+    if(ns >= qs && qe >= ne) {
+        
+        return;
+    }
+    int lf = 2 * ni + 1;
+    int rt = lf + 1;
+    int mid = ns + (ne - ns) / 2;
+	update(qs,qe,v,lf,ns,mid);
+	update(qs,qe,v,rt,mid+1,ne);
+	
+   
+}
+
+
+

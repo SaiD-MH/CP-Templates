@@ -1,0 +1,108 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define WhoCare ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define F first
+#define S second
+using namespace std;
+int dx[] = {1, -1, 0, 0};
+int dy[] = {0, 0, -1, 1};
+int dx8[8] = {1, 1, 1, 0, 0, -1, -1, -1};
+int dy8[8] = {1, -1, 0, 1, -1, 1, -1, 0};
+const int N = 1e6, LGN = __lg(N) + 1;
+int timer, inTime[N], outTime[N], up[N][LGN], maxi[N][LGN], par[N], Rank[N], n, m;
+vector<pair<int, int>>adj[N];
+struct edges {
+    int x, y, w, id;
+    edges(int x, int y, int w, int id): x(x), y(y), w(w), id(id) {}
+    bool operator <(edges const & other) {
+        return w < other.w;
+    }
+};
+int find(int x) {
+    return par[x] == x ? x : par[x] = find(par[x]);
+}
+void merge(int x, int y) {
+    x = find(x);
+    y = find(y);
+    if(x == y)return ;
+    if(Rank[x] > Rank[y])
+        Rank[x] += Rank[y], par[y] = x;
+    else
+        Rank[y] += Rank[x], par[x] = y;
+}
+void dfs(int node, int p) {
+    inTime[node] = ++timer;
+    up[node][0] = p;
+    for(int i = 1; i <= 17; i++) {
+        up[node][i] = up[up[node][i - 1]][i - 1];
+    }
+    for(int i = 1; i <= 17; i++) {
+        maxi[node][i] = max(maxi[node][i - 1], maxi[up[node][i - 1]][i - 1]);
+    }
+
+    for(auto ch : adj[node]) {
+        if(ch.F != p) {
+            maxi[ch.F][0] = ch.S;
+            dfs(ch.F, node);
+        }
+    }
+
+    outTime[node] = ++timer;
+}
+bool is_ancestor(int u, int v) {
+    return u == 0 || (inTime[u] <= inTime[v] && outTime[u] >= outTime[v]);
+}
+int lca(int u, int v) {
+    if(is_ancestor(u, v))return u;
+    if(is_ancestor(v, u))return v;
+    for(int i = 17; i >= 0; i--)
+        if(!is_ancestor(up[u][i], v))
+            u = up[u][i];
+
+    return up[u][0];
+}
+ll solve(int u, int v) {
+    ll LCA = lca(u, v);
+    ll ans = 0;
+    for(int i = 17; i >= 0; i--) {
+        if(!is_ancestor(up[u][i], LCA) || LCA == up[u][i])
+            ans = max(ans, 1LL * maxi[u][i]), u = up[u][i];
+        if(!is_ancestor(up[v][i], LCA) || LCA == up[v][i])
+            ans = max(ans, 1LL * maxi[v][i]), v = up[v][i];
+    }
+    return ans;
+}
+vector<edges>g;
+ll answer[N];
+int main() {
+
+    WhoCare
+    cin >> n >> m;
+    for(int i = 1; i <= n; i++)par[i] = i;
+    for(int i = 1; i <= m; i++) {
+        int x, y, w;
+        cin >> x >> y >> w;
+        g.push_back(edges(x, y, w, i));
+    }
+    sort(g.begin(), g.end());
+    ll tot = 0;
+    for(int i = 0; i < m; i++) {
+        int parx = find(g[i].x);
+        int pary = find(g[i].y);
+        if(parx != pary) {
+            merge(g[i].x, g[i].y);
+            tot += g[i].w;
+            adj[g[i].x].push_back({g[i].y, g[i].w});
+            adj[g[i].y].push_back({g[i].x, g[i].w});
+        }
+    }
+    dfs(1, 0);
+    for(edges ed : g) {
+        ll ans = tot +  - solve(ed.x, ed.y) + ed.w;
+        answer[ed.id] = ans;
+    }
+    for(int i = 1; i <= m; i++)
+        cout << answer[i] << "\n";
+
+    return 0;
+}

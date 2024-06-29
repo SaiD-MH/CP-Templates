@@ -1,0 +1,20 @@
+void Genrate_P() {
+ 
+    vector<bool>arr(N + 2, 0);
+    arr[0] = arr[1] = 1;
+    for(ll i = 2; i * i <= N; i++) {
+        if(arr[i] == 0) {
+            for(ll j = i * i; j <= N; j += i) {
+                arr[j] = 1;
+            }
+        }
+    }
+    for(int i = 0; i < N; i++) {
+        if(arr[i] == 0)
+            primes.push_back(i);
+    }
+ 
+ 
+ 
+ 
+}

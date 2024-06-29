@@ -1,0 +1,34 @@
+// Life is Moving on lessons
+#include<bits/stdc++.h>
+#define ll long long
+#define WhoCare ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define F first
+#define S second
+using namespace std;
+int dx[]={1,-1,0,0};
+int dy[]={0,0,-1,1};
+int dx8[8]={1,1,1,0,0,-1,-1,-1};
+int dy8[8]={1,-1,0,1,-1,1,-1,0};
+const int N = 22 , MOD = 1e9 + 7;
+int n,a[N][N];
+ll dp[N][1<<N];
+ll solve(int man,int maskG){
+if((maskG+1)==(1<<n))return 1;
+ll &ans = dp[man][maskG];
+if(~ans)return ans; ans = 0;
+for(int i=0;i<n;i++){
+    if((maskG>>i)&1)continue;
+    if(a[man][i]!=0)
+    ans = ( ans%MOD + solve(man+1,maskG|(1<<i)) + MOD )%MOD;
+}return ans%MOD;
+}
+int main(){
+WhoCare
+memset(dp,-1,sizeof dp);
+cin>>n;
+for(int i=0;i<n;i++)
+    for(int j=0;j<n;j++)
+        cin>>a[i][j];
+cout<<solve(0,0);
+return 0;
+}

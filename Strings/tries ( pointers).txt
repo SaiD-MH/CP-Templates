@@ -1,0 +1,45 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define WhoCare ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define F first
+#define S second
+using namespace std;
+int dx[] = {1, -1, 0, 0};
+int dy[] = {0, 0, -1, 1};
+int dx8[8] = {1, 1, 1, 0, 0, -1, -1, -1};
+int dy8[8] = {1, -1, 0, 1, -1, 1, -1, 0};
+struct trie {
+    trie *nxt[26];
+    int cnt;
+};
+trie *root = new trie();
+void insert(const string &s) {
+    trie * cur = root;
+    for(char c : s) {
+        trie *&child = cur->nxt[c - 'a'];
+        if(child == 0)
+            child = new trie();
+        cur = child;
+        ++cur->cnt;
+    }
+}
+int count(const string &s) {
+    trie * cur = root;
+    for(char c : s) {
+        trie *&child = cur->nxt[c - 'a'];
+        if(child == 0)
+            return 0;
+        cur = child;
+    }
+    return cur->cnt;
+}
+int main() {
+
+    WhoCare
+    int tc;
+    tc = 1;
+    while(tc--) {
+
+    }
+    return 0;
+}

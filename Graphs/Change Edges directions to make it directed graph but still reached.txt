@@ -1,0 +1,57 @@
+// The Broken Are The More Evolved
+#include<bits/stdc++.h>
+#define ll long long
+#define WhoCare ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define F first
+#define S second
+using namespace std;
+int dx[]={1,-1,0,0};
+int dy[]={0,0,-1,1};
+int dx8[8]={1,1,1,0,0,-1,-1,-1};
+int dy8[8]={1,-1,0,1,-1,1,-1,0};
+const int N=1e5+7;
+bool vis[N],ok; int tim;
+vector<int>g[N],in(N),low(N);
+vector<pair<int,int>>edges;
+void dfs(int node,int par){
+vis[node]=1;
+in[node]=low[node]=tim;
+tim++;
+for(int ch:g[node]){
+    if(ch==par)continue;
+    if(vis[ch]){
+        // backEdge
+        low[node]=min(low[node],in[ch]);
+        if(in[node]>in[ch]) //reached  to ancestor
+        edges.push_back({node,ch});
+    }
+    else{
+        // problem May it has bridge - > forward
+        dfs(ch,node);
+        if(low[ch]>in[node]){
+            ok=1;
+            return;
+        }
+        edges.push_back({node,ch});
+        low[node]=min(low[node],low[ch]);
+    }
+}
+}
+int main(){
+WhoCare
+int n,m,x,y;
+cin>>n>>m;
+while(m--){
+    cin>>x>>y;
+    g[x].push_back(y);
+    g[y].push_back(x);
+}
+dfs(1,-1);
+if(ok){
+    cout<<"0";
+    return 0;
+}
+for(pair<int,int>ed:edges)
+    cout<<ed.F<<' '<<ed.S<<'\n';
+return 0;
+}

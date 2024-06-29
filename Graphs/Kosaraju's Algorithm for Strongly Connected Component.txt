@@ -1,0 +1,54 @@
+// Happiness it's not something to find it here - Here is  a lot of suck
+#include<bits/stdc++.h>
+#define ll long long
+#define WhoCare ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define F first
+#define S second
+using namespace std;
+int dx[]={1,-1,0,0};
+int dy[]={0,0,-1,1};
+int dx8[8]={1,1,1,0,0,-1,-1,-1};
+int dy8[8]={1,-1,0,1,-1,1,-1,0};
+const int N=1e3+7;
+vector<int>g[N],trans[N],order,scc;
+bool vis[N];
+void dfs1(int node){
+vis[node]=1;
+for(int ch:g[node]){
+	if(!vis[ch])
+		dfs1(ch);
+} order.push_back(node);
+}
+void dfs2(int node){
+vis[node]=1;
+for(int ch:trans[node]){
+	if(!vis[ch])
+		dfs2(ch);
+} scc.push_back(node);
+}
+int main(){	
+WhoCare
+int n,m;
+cin>>n>>m;
+for(int i=1;i<=m;i++){
+	int x,y;
+	cin>>x>>y;
+	g[x].push_back(y);
+	trans[y].push_back(x);
+}
+for(int i=1;i<=n;i++)
+	if(!vis[i])dfs1(i);
+memset(vis,0,sizeof vis);
+for(int i=1;i<=n;i++){
+	scc.clear();
+	if(!vis[order[n-i]])
+	{
+		dfs2(order[n-i]);
+		cout<<"current SCC = ";
+		for(int no:scc)
+			cout<<no<<' ';
+		cout<<"\n";
+	}
+}
+return 0;
+}

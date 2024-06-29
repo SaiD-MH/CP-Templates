@@ -1,0 +1,79 @@
+#include<bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#define ll long long
+#define WhoCare ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define F first
+#define S second
+using namespace std;
+using namespace __gnu_pbds;
+typedef tree<int, null_type, less_equal<int>, rb_tree_tag, tree_order_statistics_node_update> indexed_set;
+int dx[] = {1, -1, 0, 0};
+int dy[] = {0, 0, -1, 1};
+int dx8[8] = {1, 1, 1, 0, 0, -1, -1, -1};
+int dy8[8] = {1, -1, 0, 1, -1, 1, -1, 0};
+const int N = 1e5 + 7;
+
+vector<int>g[N];
+
+vector<int>res;
+int in[N], n, m;
+void dfs() {
+
+
+    priority_queue<int, vector<int>, greater<int>>pq;
+
+    for(int i = 1; i <= n; i++)
+        if(!in[i])
+            pq.push(i);
+
+
+    while(!pq.empty()) {
+
+        int cur = pq.top();
+        pq.pop();
+
+        res.push_back(cur);
+        for(int ch : g[cur]) {
+
+
+            in[ch]--;
+            if(!in[ch])
+                pq.push(ch);
+
+        }
+
+    }
+
+
+    if((int)res.size() == n) {
+
+        for(int x : res)
+            cout << x << ' ';
+
+    } else
+        cout << "Sandro fails.";
+
+}
+
+int main() {
+
+    WhoCare
+
+    cin >> n >> m;
+
+    while(m--) {
+
+        int x, y;
+
+        cin >> x >> y;
+
+        g[x].push_back(y);
+        in[y]++;
+
+
+    }
+
+    dfs();
+
+    return 0;
+}

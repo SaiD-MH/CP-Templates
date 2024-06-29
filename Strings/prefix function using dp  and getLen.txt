@@ -1,0 +1,37 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define WhoCare ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define F first
+#define S second
+using namespace std;
+int dx[] = {1, -1, 0, 0};
+int dy[] = {0, 0, -1, 1};
+int dx8[8] = {1, 1, 1, 0, 0, -1, -1, -1};
+int dy8[8] = {1, -1, 0, 1, -1, 1, -1, 0};
+const int N = 1e6 + 7, MOD = 1e9 + 7;
+int fail[N], n;
+string pat, s;
+int getnewlen(int cur_len, char c) {
+    if(c == pat[cur_len])return cur_len + 1;
+    if(cur_len == 0)return 0;
+    return getnewlen(fail[cur_len - 1], c);
+}
+void buildFail() {
+    fail[0] = 0;
+    int sz = pat.size();
+    for(int i = 1; i < sz; i++)
+        fail[i] = getnewlen(fail[i - 1], pat[i]);
+}
+void match(string &s) {
+
+}
+int main() {
+
+    WhoCare
+    int tc;
+    tc = 1;
+    while(tc--) {
+       
+    }
+    return 0;
+}

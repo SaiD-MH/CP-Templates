@@ -1,0 +1,31 @@
+// "Hard work is worthless for those that don't believe in themselves" __ Uzumaki Naruto
+#include<bits/stdc++.h>
+#define ll long long
+#define WhoCare ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define F first
+#define S second
+using namespace std;
+int dx[]= {1,-1,0,0};
+int dy[]= {0,0,-1,1};
+int dx8[8]= {1,1,1,0,0,-1,-1,-1};
+int dy8[8]= {1,-1,0,1,-1,1,-1,0};
+const int N = 1e5 + 7;
+int pi[N];
+void prefix_function(string &s){
+    int n = s.size();
+    for(int i=1;i<n;i++){
+        int j = pi[i - 1];
+        while(j && s[i]!=s[j])
+            j = pi[j - 1];
+        if(s[i] == s[j])
+            j++;
+        pi[i] = j;
+    }
+    
+}
+int main(){
+WhoCare
+string s = "aabaaab";
+prefix_function(s);
+return 0;
+}

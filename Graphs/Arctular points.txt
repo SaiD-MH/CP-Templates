@@ -1,0 +1,48 @@
+// alot of Suck
+#include<bits/stdc++.h>
+#define ll long long
+#define WhoCare ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define F first
+#define S second
+using namespace std;
+int dx[]={1,-1,0,0};
+int dy[]={0,0,-1,1};
+int dx8[8]={1,1,1,0,0,-1,-1,-1};
+int dy8[8]={1,-1,0,1,-1,1,-1,0};
+const int N=1e5+7;
+bool vis[N];
+vector<int>g[N];
+int in[N],low[N],tim;
+void dfs(int node,int par=-1){
+vis[node]=1;
+in[node]=low[node]=tim++;
+int subtrees=0;
+for(int ch:g[node]){
+	if(ch==par)continue;
+	if(vis[ch]){
+		low[node]=min(low[node],in[ch]);
+	}
+	else{
+		dfs(ch,node);
+		low[node]=min(low[node],low[ch]);
+		if(in[node]<=low[ch]&&par!=-1)
+			cout<<"Node "<<node<<' '<<"is artcular point\n";
+		subtrees++;
+	}
+}
+if(par==-1&&subtrees>1)
+	cout<<"Node "<<node<<' '<<"is artcular point\n";
+}
+int main(){
+WhoCare
+int n,m;
+cin>>n>>m;
+while(m--){
+	int x,y;
+	cin>>x>>y;
+	g[x].push_back(y);
+	g[y].push_back(x);
+}
+dfs(1);
+return 0;
+}

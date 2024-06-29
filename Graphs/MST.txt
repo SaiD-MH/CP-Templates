@@ -1,0 +1,36 @@
+// Too Wrong to pass Too Correct to fail
+#include<bits/stdc++.h>
+#define ll long long
+#define WhoCare ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define F first
+#define S second
+using namespace std;
+int dx[]={1,-1,0,0};
+int dy[]={0,0,-1,1};
+int dx8[8]={1,1,1,0,0,-1,-1,-1};
+int dy8[8]={1,-1,0,1,-1,1,-1,0};
+const int N=3e5+7;
+struct edges{
+	int x,y,w;
+	bool operator<(edges const& other){
+		return w<other.w;
+	}
+};
+int Rank[N],par[N];
+int find(int x){
+	return par[x]==x?x:par[x]=find(par[x]);
+}
+void merge(int x,int y){
+	x=find(x),y=find(y);
+	if(x==y)return;
+	if(Rank[x]>Rank[y])Rank[x]+=Rank[y],par[y]=x;
+	else Rank[y]+=Rank[x],par[x]=y;	
+}
+edges a[N];
+int main(){	
+WhoCare
+int n,m;
+cin>>n>>m;
+
+return 0;	
+} 

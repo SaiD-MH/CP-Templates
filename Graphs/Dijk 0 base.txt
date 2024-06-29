@@ -1,0 +1,50 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define WhoCare ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define F first
+#define S second
+using namespace std;
+int dx[]={1,-1,0,0};
+int dy[]={0,0,-1,1};
+int dx8[8]={1,1,1,0,0,-1,-1,-1};
+int dy8[8]={1,-1,0,1,-1,1,-1,0};
+const int N=1e5+7;
+ll dis[N];
+int n,m;
+vector<pair<ll,ll>>g[N];
+void dijk(int node){
+	memset(dis,'?',n * sizeof dis[0]);
+	priority_queue<pair<ll,ll>>pq;
+	pq.push({0,node});
+	dis[node]=0;
+	while(!pq.empty()){
+		auto cur=pq.top();
+		pq.pop();
+		int u=cur.S;
+		ll d=cur.F*-1;
+		if(d!=dis[u])continue;
+		for(auto e:g[u]){
+			int v=e.F;
+			ll c=e.S;
+			if(c+dis[u]<dis[v]){
+				dis[v]=c+dis[u];
+				pq.push({dis[v]*-1,v});
+			}
+		}
+	}
+}
+int main(){	
+WhoCare
+cin>>n>>m;
+while(m--){
+	ll x,y,w;
+	cin>>x>>y>>w;
+	x--,y--;
+	g[x].push_back({y,w});
+}
+dijk(0);
+for(int i=0;i<n;i++)	
+cout<<dis[i]<<' ';
+return 0;	
+} 
+	

@@ -1,0 +1,56 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define WhoCare ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define F first
+#define S second
+using namespace std;
+int dx[] = {1, -1, 0, 0};
+int dy[] = {0, 0, -1, 1};
+int dx8[8] = {1, 1, 1, 0, 0, -1, -1, -1};
+int dy8[8] = {1, -1, 0, 1, -1, 1, -1, 0};
+const int N = 2e5 + 7;
+
+ll a[N], cum[N];
+
+
+int main() {
+
+    WhoCare
+
+
+
+    int n;
+    cin >> n;
+
+
+    for(int i = 1; i <= n; i++) {
+        cin >> a[i];
+
+    }
+
+    cum[0] = 0;
+    for(int i = 1; i <= n; i++)
+        cum[i] = cum[i - 1] + a[i];
+
+    map<ll, ll>mp;
+    mp[0] = 0;
+
+    ll ans = 0, lst = 0;
+
+    for(int i = 1; i <= n; i++) {
+
+
+        if (mp.count(cum[i]))
+            lst = max(lst, mp[cum[i]] + 1);
+
+        ans += max(0LL, 1LL * i - lst);
+
+
+        mp[cum[i]] = i;
+    }
+
+    cout << ans;
+
+    return 0;
+}
+

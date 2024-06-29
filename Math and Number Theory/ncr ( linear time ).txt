@@ -1,0 +1,24 @@
+// Master it by work - NOT - wishing some more luck
+#include<bits/stdc++.h>
+#define ll long long
+#define WhoCare ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define F first
+#define S second
+using namespace std;
+int dx[]={1,-1,0,0};
+int dy[]={0,0,-1,1};
+int dx8[8]={1,1,1,0,0,-1,-1,-1};
+int dy8[8]={1,-1,0,1,-1,1,-1,0};
+ll ncr(ll n, ll k){
+ll res=1;
+if(k>n-k)
+    k=n-k;
+for(int i=0;i<k;i++)
+    res*=(n-i),res/=(i+1);
+return res;
+}
+int main(){
+WhoCare
+
+return 0;
+}

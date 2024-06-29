@@ -1,0 +1,52 @@
+// "Hard work is worthless for those that don't believe in themselves" __ Uzumaki Naruto
+#include<bits/stdc++.h>
+#define ll long long
+#define WhoCare ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define F first
+#define S second
+using namespace std;
+int dx[]= {1,-1,0,0};
+int dy[]= {0,0,-1,1};
+int dx8[8]= {1,1,1,0,0,-1,-1,-1};
+int dy8[8]= {1,-1,0,1,-1,1,-1,0};
+const int mod [] = {(int)1e9 + 7, (int)1e9 + 9};
+const int base [] = {31 , 103};
+vector<int>h[2],power[2];
+void preprocess(string &s){
+int n = s.size();
+h[0].resize(n+1,0),h[1].resize(n+1,0);
+power[0].resize(n+1,1),power[1].resize(n+1,1);
+for(int i=1;i<=n;i++){
+    for(int j = 0 ; j < 2 ; j++ ){
+        h[j][i] = ( 1ll * h[j][i-1] * base[j] + s[i-1] ) % mod[j];
+        power[j][i] = 1ll * power[j][i-1] * base[j] % mod[j];
+    }
+}}
+pair<int,int>subHash(int l , int r){
+    vector<int>v;
+    for(int i=0;i<2;i++){
+        v.push_back(h[i][r] - 1ll*h[i][l - 1] * power[i][r - l + 1] % mod[i]);
+        if(v.back()<0)v.back()+=mod[i];
+    }
+    return {v[0],v[1]};
+}
+pair<int,int>calcHash(string &s){
+    vector<int>v;
+    int n = s.size();
+    for(int i=0;i<2;i++){
+        int hashval = 0;
+        for(auto &j : s){
+            hashval =( 1ll* hashval * base[i] + j ) % mod[i];
+        }
+        v.push_back(hashval);
+    }
+    return {v[0],v[1]};
+}
+int main() {
+WhoCare
+                                                                    //idx , base           
+/// if you want to make full hash to multiple strings use it like that H[id][2];
+
+
+return 0;
+}

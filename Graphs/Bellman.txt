@@ -1,0 +1,84 @@
+// DEAD INSIDE 
+#include<bits/stdc++.h>
+#define ll long long
+#define WhoCare ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define F first
+#define S second
+using namespace std;
+int dx[]={1,-1,0,0};
+int dy[]={0,0,-1,1};
+int dx8[8]={1,1,1,0,0,-1,-1,-1};
+int dy8[8]={1,-1,0,1,-1,1,-1,0};
+const int N=2500+7;
+const ll inf=0x3f3f3f3f3f3f3f3f;
+int n,m;
+ll dis[N];
+vector<pair<int,int>>edges[N];
+bool vis[N];
+int par[N],vid,inQ[N];
+int bellman(int src){
+	++vid;
+	queue<int>changed;
+	dis[src]=0;
+	changed.push(src);
+	inQ[src]=vid;
+	int nn=n; // here you can make another optmization by using dfs to cath el (n) and loop just in size of connected component
+	while(nn--){
+		int sz=changed.size();
+		while(sz--){
+			int u=changed.front();
+			changed.pop();
+			inQ[u]=0;
+			for(auto &e:edges[u]){
+				int v=e.F;
+				int c=e.S;
+				if(dis[u]+c<dis[v]){
+					par[v]=u;
+					if(nn == 0)return v;
+					dis[v]=dis[u]+c;
+					if(inQ[v]==vid)continue;
+					changed.push(v);
+					inQ[v]=vid;
+				}
+			}
+		}
+	}
+	return -1;
+}
+int main(){	
+WhoCare
+cin>>n>>m;
+for(int i=0;i<m;i++){
+	int x,y,w;
+	cin>>x>>y>>w;
+	x--,y--;
+	edges[x].push_back({y,w});
+}
+memset(dis,'?',n * sizeof dis[0]);
+for(int i=0;i<n;i++){
+	if(dis[i]==inf){
+		int lst=bellman(i);
+		if(lst!=-1){ // cycle here
+			cout<<"YES\n";
+			int cur=lst;
+			vector<int>cyc;
+			while(!vis[cur]){
+				vis[cur]=1;
+				cur=par[cur];
+			}
+			lst=cur;
+			do{
+				cyc.push_back(cur);
+				cur=par[cur];
+			}while(cur!=lst);
+			cyc.push_back(cur);
+			reverse(cyc.begin(),cyc.end());
+			for(int no:cyc)
+				cout<<no+1<<' ';
+			return 0;
+		}
+	}
+}
+cout<<"NO";
+return 0;	
+} 

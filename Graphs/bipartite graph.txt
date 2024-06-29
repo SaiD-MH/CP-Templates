@@ -1,0 +1,61 @@
+#include<bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#define ll long long
+#define WhoCare ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define F first
+#define S second
+using namespace std;
+using namespace __gnu_pbds;
+typedef tree<int, null_type, less_equal<int>, rb_tree_tag, tree_order_statistics_node_update> indexed_set;
+int dx[] = {1, -1, 0, 0};
+int dy[] = {0, 0, -1, 1};
+int dx8[8] = {1, 1, 1, 0, 0, -1, -1, -1};
+int dy8[8] = {1, -1, 0, 1, -1, 1, -1, 0};
+const int N = 2e5 + 9;
+
+bool color[N], vis[N];
+vector<int>g[N];
+int n, m;
+bool dfs(int node, int c) {
+
+    vis[node] = 1;
+    color[node] = c;
+
+    for(int ch : g[node]) {
+
+        if(!vis[ch]) {
+
+            if(dfs(ch, c ^ 1) == false)
+                return false;
+        } else {
+
+            if(color[node] == color[ch])
+                return false;
+        }
+
+    }
+
+    return true;
+}
+
+int main() {
+
+    WhoCare
+
+    cin >> n >> m;
+
+
+    for(int i = 1; i <= m; i++) {
+
+        int x, y;
+        cin >> x >> y;
+        g[x].push_back(y);
+        g[y].push_back(x);
+
+    }
+
+
+    cout << (dfs(1, 0) ? "BI" : "NOT BI");
+
+    return 0;
+}

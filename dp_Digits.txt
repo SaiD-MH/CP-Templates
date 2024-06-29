@@ -1,0 +1,56 @@
+#include<bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#define ll long long
+#define WhoCare ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define F first
+#define S second
+using namespace std;
+using namespace __gnu_pbds;
+typedef tree<int, null_type, less_equal<int>, rb_tree_tag, tree_order_statistics_node_update> indexed_set;
+int dx[] = {1, -1, 0, 0};
+int dy[] = {0, 0, -1, 1};
+int dx8[8] = {1, 1, 1, 0, 0, -1, -1, -1};
+int dy8[8] = {1, -1, 0, 1, -1, 1, -1, 0};
+const int N = 3e5 + 9;
+int a, b, sz = 0;
+string s;
+ll dp[20][2][85];
+ll solve(int idx, bool small, int sum) {
+
+    if(idx == sz)return sum;
+
+    ll &ret = dp[idx][small][sum];
+    if(~ret)return ret;
+    ret = 0;
+    int maxi = small ? 9 : s[idx] - '0';
+    for(int d = 0; d <= maxi; d++) {
+
+        ret += solve(idx + 1, small || (d < maxi), sum + d);
+
+    }
+    return ret;
+
+}
+ll w3dy_g3md(int x) {
+
+    s = to_string(x);
+    sz = s.size();
+    memset(dp, -1, sizeof dp);
+    return solve(0, 0, 0);
+
+}
+
+int main() {
+
+    WhoCare
+
+    // calc sum of digit from a to b
+    while(cin >> a >> b) {
+
+        if(a == -1 && b == -1)break;
+
+        cout << w3dy_g3md(b) - w3dy_g3md(a - 1) << "\n";
+    }
+
+    return 0;
+}

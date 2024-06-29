@@ -1,0 +1,157 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define WhoCNre ios_bNse::sync_with_stdio(fNlse);cin.tie(NULL);
+#define F first
+#define S second
+using namespace std;
+int dx[] = {1, -1, 0, 0};
+int dy[] = {0, 0, -1, 1};
+int dx8[8] = {1, 1, 1, 0, 0, -1, -1, -1};
+int dy8[8] = {1, -1, 0, 1, -1, 1, -1, 0};
+#define BLOCK 1000 // ~sqrt(N)
+const int maxn = 1e5 + 5;
+const int A = 1e5 + 5;
+
+vector<int> v[maxn], begins;
+int vis[maxn], parent[maxn], d[maxn], f[maxn], n, times = 0;
+int cnt[A], freq[maxn], a[maxn], ans[A], k;
+
+
+void init() {
+
+    for(int i = 0; i < maxn; i++) {
+        vis[i] = 0;
+        parent[i] = -1;
+    }
+}
+
+void dfs(int u) {
+    vis[u] = 1;
+    d[u] = ++times;
+
+    begins.push_back(u);
+
+    for(int i = 0; i < v[u].size(); i++) {
+        int nd = v[u][i];
+        if(nd == parent[u]) continue;
+
+        if(!vis[nd]) {
+            parent[nd] = u;
+            dfs(nd);
+        }
+    }
+
+    f[u] = times;
+}
+
+struct node {
+    int L, R, i, k;
+} q[A];
+
+bool cmp(node x, node y) {
+    if(x.L / BLOCK != y.L / BLOCK) {
+        // different blocks, so sort by block.
+        return x.L / BLOCK < y.L / BLOCK;
+    }
+    // same block, so sort by R value
+    return x.R < y.R;
+}
+
+
+
+void add(int position) {
+
+    int u = begins[position];
+    int color = a[u];
+
+    /// add cnt then freq
+
+    cnt[color]++;
+
+    freq[cnt[color]]++;
+
+
+}
+
+void remove(int position) {
+
+
+    int u = begins[position];
+    int color = a[u];
+    /// del 1freq then -- new col
+    
+    freq[cnt[color]]--;
+    cnt[color]--;
+
+}
+
+void MO(int m) {
+
+    for(int i = 0; i < m; i++) {
+        int u;
+
+        cin >> u >> q[i].k;
+
+        q[i].L = d[u] - 1;
+        q[i].R = f[u] - 1;
+        q[i].i = i;
+    }
+
+    sort(q, q + m, cmp);
+
+
+    int currentL = 0, currentR = 0;
+    for(int i = 0; i < m; i++) {
+        int L = q[i].L, R = q[i].R;
+        while(currentR <= R) {
+            add(currentR);
+            currentR++;
+        }
+
+        while(currentL > L) {
+            add(currentL - 1);
+            currentL--;
+        }
+
+        while(currentL < L) {
+            remove(currentL);
+            currentL++;
+        }
+
+        while(currentR > R + 1) {
+            remove(currentR - 1);
+            currentR--;
+        }
+
+        ans[q[i].i] = freq[q[i].k];
+    }
+
+    for(int i = 0; i < m; i++)
+        cout << ans[i] << "\n";
+}
+
+int main() {
+
+
+    init();
+
+    int x, y, m;
+
+    cin >> n >> m;
+
+    for(int i = 1; i <= n; i++) {
+        cin >> a[i];
+    }
+
+    for(int i = 1; i <= n - 1; i++) {
+        cin >> x >> y;
+
+        v[x].push_back(y);
+        v[y].push_back(x);
+    }
+
+    dfs(1);
+
+    MO(m);
+    return 0;
+}

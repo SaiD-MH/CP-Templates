@@ -1,0 +1,30 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define WhoCare ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define F first
+#define S second
+using namespace std;
+int dx[] = {1, -1, 0, 0};
+int dy[] = {0, 0, -1, 1};
+int dx8[8] = {1, 1, 1, 0, 0, -1, -1, -1};
+int dy8[8] = {1, -1, 0, 1, -1, 1, -1, 0};
+const int N = 1e5 + 6, LGN = __lg(N) + 1, block_size = sqrt(1e5), inf = 2e9;
+int a[4][4], dp[4][4];
+int main() {
+
+    WhoCare
+    for(int i = 1; i <= 3; i++)
+        for(int j = 1; j <= 3; j++)
+            cin >> a[i][j];
+    for(int i = 1; i <= 3; i++)
+        for(int j = 1; j <= 3; j++)
+            dp[i][j] = (a[i][j] + dp[i - 1][j] + dp[i][j - 1] - dp[i - 1][j - 1]);
+    for(int i = 1; i <= 3; i++) {
+        for(int j = 1; j <= 3; j++)
+            cout << dp[i][j] << ' ';
+        cout << "\n";
+    }
+	//dp[i][j]= up+left-digonal
+	// every cell carry sum of rectangle from [1][1] to [i][j]
+    return 0;
+}

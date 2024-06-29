@@ -1,0 +1,56 @@
+
+https://codeforces.com/contest/1593/problem/E
+
+// The Broken Are The More Evolved
+#include<bits/stdc++.h>
+#define ll long long
+#define WhoCare ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define F first
+#define S second
+using namespace std;
+int dx[]={1,-1,0,0};
+int dy[]={0,0,-1,1};
+int dx8[8]={1,1,1,0,0,-1,-1,-1};
+int dy8[8]={1,-1,0,1,-1,1,-1,0};
+const int N=4e5+7;
+set<int>g[N];
+void inti(int n){
+	for(int i=0;i<=n;i++)g[i].clear();
+}
+int main(){
+WhoCare
+int tc; cin>>tc;
+while(tc--){
+int n,k;
+cin>>n>>k;
+for(int i=1;i<n;i++){
+	int x,y;
+	cin>>x>>y;
+	g[x].insert(y);
+	g[y].insert(x);
+}
+vector<int>leafs,nxt;
+for(int i=1;i<=n;i++)
+	if((int)g[i].size()<=1)
+		leafs.push_back(i);
+int ans=n;
+while(k--){
+	if(!ans)break;
+	nxt.clear();
+	ans-=int(leafs.size());
+	for(auto node:leafs){
+		for(auto ch:g[node]){
+			if(g[ch].find(node)!=g[ch].end()){
+				g[ch].erase(node);
+			if((int)g[ch].size()==1)
+				nxt.push_back(ch);
+		}
+	}
+		g[node].clear();
+	}
+	leafs=nxt;
+} cout<<ans<<"\n";
+inti(n);
+}
+return 0;
+}

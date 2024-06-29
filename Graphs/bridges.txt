@@ -1,0 +1,58 @@
+#include<bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#define ll long long
+#define WhoCare ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define F first
+#define S second
+using namespace std;
+using namespace __gnu_pbds;
+typedef tree<int, null_type, less_equal<int>, rb_tree_tag, tree_order_statistics_node_update> indexed_set;
+int dx[] = {1, -1, 0, 0};
+int dy[] = {0, 0, -1, 1};
+int dx8[8] = {1, 1, 1, 0, 0, -1, -1, -1};
+int dy8[8] = {1, -1, 0, 1, -1, 1, -1, 0};
+const int N = 3e5 + 9;
+int n, m;
+vector<int> g[N];
+int in[N], low[N], timer;
+bool vis[N];
+vector<pair<int, int>>ans;
+void dfs(int node, int p = -1) {
+    vis[node] = 1;
+    in[node] = low[node] = timer++;
+    for (int ch : g[node]) {
+        if (ch == p) continue;
+        if (vis[ch]) {
+            low[node] = min(low[node], in[ch]);
+        } else {
+            dfs(ch, node);
+            low[node] = min(low[node], low[ch]);
+            if (low[ch] > in[node]) {
+                // this is bridge
+
+                ans.push_back({min(node, ch), max(node, ch)});
+
+            }
+        }
+    }
+}
+void cleaner() {
+    ans.clear();
+    for(int i = 0; i < n; i++) {
+        vis[i] = 0;
+        g[i].clear();
+        timer = 0;
+        in[i] = 0;
+        low[i] = 0;
+    }
+
+}
+int main() {
+
+    WhoCare
+
+    cin >> n >> m;
+    
+    
+    return 0;
+}

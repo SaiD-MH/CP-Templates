@@ -1,0 +1,14 @@
+
+int Rank[N], par[N];
+int find(int x) {
+    return par[x] == x ? x : par[x] = find(par[x]);
+}
+void merge(int x, int y) {
+    x = find(x), y = find(y);
+    if(x == y)return;
+    if(Rank[x] > Rank[y])Rank[x] += Rank[y], par[y] = x;
+    else Rank[y] += Rank[x], par[x] = y;
+}
+
+
+// don't forrrrrrrget to init par[i]=i  & rank[i]=1

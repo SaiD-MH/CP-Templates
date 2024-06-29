@@ -1,0 +1,48 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define WhoCare ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define F first
+#define S second
+using namespace std;
+int dx[] = {1, -1, 0, 0};
+int dy[] = {0, 0, -1, 1};
+int dx8[8] = {1, 1, 1, 0, 0, -1, -1, -1};
+int dy8[8] = {1, -1, 0, 1, -1, 1, -1, 0};
+const int N = 1e6, LGN = __lg(N) + 1;
+int p, up[N][25];
+int get_kth_ancestor(int node, int k) {
+    for(int i = 17; i >= 0 ; i--) {
+        if((1 << i) <= k) {
+            k -= (1 << i);
+            node = up[node][i];
+        }
+    }
+    return node;
+}
+int main() {
+
+    WhoCare
+    int tc;
+    tc = 1;
+    while(tc--) {
+        int n, q;
+        cin >> n >> q;
+        for(int i = 2; i <= n; i++) {
+            cin >> p;
+            up[i][0] = p;
+        }
+        for(int i = 1; i <= 17; i++)
+            for(int node = 1; node <= n; node++)
+                up[node][i] = up[up[node][i - 1]][i - 1];
+
+        while(q--) {
+            int node, k;
+            cin >> node >> k;
+            int ans = get_kth_ancestor(node, k);
+            if(!ans)ans = -1;
+            cout << ans << "\n";
+        }
+
+    }
+    return 0;
+}
